@@ -1,0 +1,37 @@
+﻿
+
+ /* 
+         * https://ithelp.ithome.com.tw/articles/10247408
+         * https://ithelp.ithome.com.tw/articles/10247408
+         * https://www.processon.com/diagraming/5ac972c6e4b08996549bbc30
+         stream下可以有多个subject , 每个subject的durable 不能一样，durable 下一个队列 要记住durable消费位置的保存
+          //以stream为单位保存   durable保存消费位置  最低一个subject一个 durable，最好 同一个subject的不同订阅者要不同。 对于队列的要使用同一个durable
+         //不同durable下的队列没有关系 即时名称一样也没关系
+
+                //stream下的durable 是保存消费者信息的消费同一个durable的消费者 消费位移是同一个
+                //如果是订阅 就要考虑 多个订阅是否使用同一个durable，一般应该不是同一个 ，这样每个订阅有自己的位移
+                //如果按照队列消费，肯定要同一个durable，且队列名一样
+                //subject必须属于某个stream  stream下的subject 可以模式匹配
+
+        使用：
+            队列: 一个stream，一个subject，一个durable ，一个队列名称   (可以分布式运行) //队列模式  Durable 固定 ，Queue固定
+            发布订阅：一个stream，一个subject,不同的durable，一个队列名称 (如果没有队列名称的话，就不能分布式订阅了)  //订阅模式 Durable 不同，Queue必须有，相同不相同没关系
+
+        可以这样做
+         */
+
+
+          //pull mode
+                //ConsumerConfiguration consumerConfiguration2 = ConsumerConfiguration.Builder()
+                //    .WithDeliverPolicy(subscribeOptions?.DeliverPolicy ?? DeliverPolicy.All)
+                //    .WithDeliverGroup(queue)
+                //    .Build();
+                //PullSubscribeOptions pullSubscribeOptions = PullSubscribeOptions.Builder()
+                //    .WithStream(stream)
+                //    .WithDurable(durable)
+                //    .WithConfiguration(consumerConfiguration2)
+                //    .Build();
+                //IJetStreamPullSubscription jetStreamPull = jetStream.PullSubscribe(topic, pullSubscribeOptions);
+                //Task.Run(()=> {
+                //    jetStreamPull.Fetch();
+                //});
