@@ -8,6 +8,9 @@ using static NATS.Client.JetStream.StreamConfiguration;
 
 namespace Aix.NatsMessageBus
 {
+    /// <summary>
+    /// nats admin
+    /// </summary>
     public class NatsAdmin
     {
         private ILogger<NatsAdmin> _logger;
@@ -16,6 +19,12 @@ namespace Aix.NatsMessageBus
 
         private static object SyncLock = new object();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="options"></param>
+        /// <param name="connection"></param>
         public NatsAdmin(ILogger<NatsAdmin> logger, NatsMessageBusOptions options, IConnection connection)
         {
             _logger = logger;
@@ -23,6 +32,11 @@ namespace Aix.NatsMessageBus
             _connection = connection;
         }
 
+        /// <summary>
+        /// add or update stream
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="streamConfigurationBuilder"></param>
         public void SaveStream(string stream, Action<StreamConfigurationBuilder> streamConfigurationBuilder)
         {
             var builder = StreamConfiguration.Builder();

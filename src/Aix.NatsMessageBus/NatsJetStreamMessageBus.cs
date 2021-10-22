@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace Aix.NatsMessageBus
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class NatsJetStreamMessageBus : INatsJSMessageBus
     {
         private ILogger<NatsJetStreamMessageBus> _logger;

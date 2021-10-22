@@ -172,12 +172,12 @@ namespace Aix.NatsMessageBus
 
         private string GetTopic(Type type, AixPublishOptions publishOptions)
         {
-            return "t_" + Helper.GetPubTopic(type, _options, publishOptions);
+            return "s_" + Helper.GetPubTopic(type, _options, publishOptions);
         }
 
         private string GetTopic(Type type, AixSubscribeOptions subscribeOptions)
         {
-            return "t_" + Helper.GetSubTopic(type, _options, subscribeOptions);
+            return "s_" + Helper.GetSubTopic(type, _options, subscribeOptions);
         }
 
         private int GetTimeoutMillisecond(int value)

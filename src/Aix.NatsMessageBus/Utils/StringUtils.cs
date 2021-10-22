@@ -87,42 +87,6 @@ namespace Aix.NatsMessageBus.Utils
             return camelCase;
         }
 
-        /// <summary>
-        /// 解析内容中的@信息
-        /// </summary>
-        /// <param name="cotent"></param>
-        /// <returns></returns>
-        public static List<string> ParseAt(string content)
-        {
-            List<string> reslut = new List<string>();
-            if (string.IsNullOrEmpty(content)) return reslut;
-
-            Regex regex = new Regex("@[\u4e00-\u9fa5a-zA-Z0-9_-]+"); //用户正则
-                                                                     //Regex regex = new Regex("@[\u4e00-\u9fa5a-zA-Z0-9_-]{1,30}"); //用户正则
-            var groupMatch = regex.Matches(content);
-            foreach (var item in groupMatch)
-            {
-                reslut.Add(item.ToString().Replace("@", ""));
-            }
-
-            return reslut;
-        }
-
-        public static String RemoveAt(string content)
-        {
-            if (string.IsNullOrEmpty(content)) return content;
-
-            if (content.StartsWith("回复了"))
-            {
-                content = content.Substring(3);
-            }
-
-            Regex regex = new Regex("@[\u4e00-\u9fa5a-zA-Z0-9_-]+");
-            return regex.Replace(content, "");
-        }
-
-        
-
         public static List<string> Split(string str, char[] separator)
         {
             var result = new List<string>();

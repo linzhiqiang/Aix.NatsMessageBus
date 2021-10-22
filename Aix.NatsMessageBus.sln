@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aix.NatsMessageBusSubscribe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "examples\Common\Common.csproj", "{D195D1A2-E69A-4C35-93A4-E64DF0C3F66B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NATS.Client", "src\NATS.Client\NATS.Client.csproj", "{6BDD9336-9450-4124-B8A6-22EFC1FEC6C0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,10 +37,6 @@ Global
 		{D195D1A2-E69A-4C35-93A4-E64DF0C3F66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D195D1A2-E69A-4C35-93A4-E64DF0C3F66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D195D1A2-E69A-4C35-93A4-E64DF0C3F66B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6BDD9336-9450-4124-B8A6-22EFC1FEC6C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BDD9336-9450-4124-B8A6-22EFC1FEC6C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BDD9336-9450-4124-B8A6-22EFC1FEC6C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BDD9336-9450-4124-B8A6-22EFC1FEC6C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,7 +46,6 @@ Global
 		{A0D4B43A-221B-44EC-B156-5C9868AB425C} = {E4F23DC9-643D-43E2-9C90-C99EAC0168B3}
 		{814971BD-17F7-4F7C-84E9-4E9EEA79F5E5} = {E4F23DC9-643D-43E2-9C90-C99EAC0168B3}
 		{D195D1A2-E69A-4C35-93A4-E64DF0C3F66B} = {E4F23DC9-643D-43E2-9C90-C99EAC0168B3}
-		{6BDD9336-9450-4124-B8A6-22EFC1FEC6C0} = {E860AECD-0A96-4B2A-B5E5-F5B758A135FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A1B4543-282A-4F12-A460-584F02551A23}

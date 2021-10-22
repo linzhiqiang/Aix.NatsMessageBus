@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Aix.NatsMessageBus</name>
+    </assembly>
+    <members>
+        <member name="F:Aix.NatsMessageBus.Helper.TopicCache">
+            <summary>
+            topic缓存
+            </summary>
+        </member>
+        <member name="T:Aix.NatsMessageBus.INatsPublisher">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Aix.NatsMessageBus.INatsPublisher.PublishAsync(System.Type,System.Object)">
+            <summary>
+            publish message
+            </summary>
+            <param name="messageType"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.INatsPublisher.PublishAsync(System.Type,System.Object,Aix.NatsMessageBus.Model.AixPublishOptions)">
+            <summary>
+            
+            </summary>
+            <param name="messageType"></param>
+            <param name="message"></param>
+            <param name="publishOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Aix.NatsMessageBus.INatsRequester">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Aix.NatsMessageBus.INatsRequester.RequestAsync``1(System.Type,System.Object,System.Int32)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="messageType"></param>
+            <param name="message"></param>
+            <param name="timeoutMillisecond"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.INatsRequester.RequestAsync``1(System.Type,System.Object,System.Int32,Aix.NatsMessageBus.Model.AixPublishOptions)">
+            <summary>
+            
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="messageType"></param>
+            <param name="message"></param>
+            <param name="timeoutMillisecond"></param>
+            <param name="publishOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Aix.NatsMessageBus.INatsSubscriber">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Aix.NatsMessageBus.INatsSubscriber.SubscribeAsync``1(System.Func{``0,Aix.NatsMessageBus.Model.SubscribeContext,System.Threading.Tasks.Task},Aix.NatsMessageBus.Model.AixSubscribeOptions)">
+            <summary>
+            subscribe message
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="handler"></param>
+            <param name="subscribeOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.INatsSubscriber.SubscribeAsync``1(System.Func{``0,Aix.NatsMessageBus.Model.SubscribeContext,System.Threading.Tasks.Task{System.Object}},Aix.NatsMessageBus.Model.AixSubscribeOptions)">
+            <summary>
+            subscribe message and with reply
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="handler"></param>
+            <param name="subscribeOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Aix.NatsMessageBus.Model.AixSubscribeOptions">
+            <summary>
+            单个订阅的配置，针对当前订阅有效
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.Model.AixSubscribeOptions.Queue">
+            <summary>
+            分组 默认取全局配置
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.Model.AixSubscribeOptions.ConsumerThreadCount">
+            <summary>
+            消费者线程数 默认取全局配置
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.Model.AixSubscribeOptions.Topic">
+            <summary>
+            覆盖特性配置
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.Model.AixSubscribeOptions.Stream">
+            <summary>
+            覆盖特性配置
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.Model.JetStreamAttribute.Stream">
+            <summary>
+            Stream
+            </summary>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Model.JetStreamAttribute.#ctor">
+            <summary>
+            覆盖全局配置
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.Model.TopicAttribute.Name">
+            <summary>
+            Topic
+            </summary>
+        </member>
+        <member name="T:Aix.NatsMessageBus.NatsAdmin">
+            <summary>
+            nats admin
+            </summary>
+        </member>
+        <member name="M:Aix.NatsMessageBus.NatsAdmin.#ctor(Microsoft.Extensions.Logging.ILogger{Aix.NatsMessageBus.NatsAdmin},Aix.NatsMessageBus.NatsMessageBusOptions,NATS.Client.IConnection)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="options"></param>
+            <param name="connection"></param>
+        </member>
+        <member name="M:Aix.NatsMessageBus.NatsAdmin.SaveStream(System.String,System.Action{NATS.Client.JetStream.StreamConfiguration.StreamConfigurationBuilder})">
+            <summary>
+            add or update stream
+            </summary>
+            <param name="stream"></param>
+            <param name="streamConfigurationBuilder"></param>
+        </member>
+        <member name="T:Aix.NatsMessageBus.NatsJetStreamMessageBus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.NatsMessageBusOptions.Urls">
+            <summary>
+            nats服务地址
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.NatsMessageBusOptions.TopicPrefix">
+            <summary>
+            topic前缀，为了防止重复，建议用项目名称
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.NatsMessageBusOptions.DefaultConsumerThreadCount">
+            <summary>
+            默认每个Topic的消费线程数 默认2个,请注意与分区数的关系
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.NatsMessageBusOptions.Serializer">
+            <summary>
+            自定义序列化，默认为MessagePack
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.NatsMessageBusOptions.DefaultTimeoutMillisecond">
+            <summary>
+            default value (request-reply) 3000
+            </summary>
+        </member>
+        <member name="P:Aix.NatsMessageBus.NatsMessageBusOptions.AutoAck">
+            <summary>
+            for  jetStream default value is false
+            </summary>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.NumberUtils.GetDecimalPlaces(System.Decimal)">
+            <summary>
+            获取小数位数
+            </summary>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.NumberUtils.Round(System.Decimal,System.Int32)">
+            <summary>
+            保留几位小数
+            </summary>
+            <param name="value"></param>
+            <param name="decimals"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.NumberUtils.SplitBinary(System.Int32)">
+            <summary>
+            枚举和 拆分  如15->1,2,4,8
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.NumberUtils.BinaryArrayToInt(System.Int32[])">
+            <summary>
+            枚举值数组转换为整数 [1,2,4]=>7
+            </summary>
+            <param name="arr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.StringUtils.IfEmpty(System.String[])">
+            <summary>
+            找到一个不为empty的返回
+            </summary>
+            <param name="strs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.StringUtils.SubString(System.String,System.Int32,System.String)">
+            <summary>
+            超出长度的添加后缀
+            </summary>
+            <param name="value"></param>
+            <param name="length"></param>
+            <param name="postfix"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.StringUtils.ToLine(System.String)">
+            <summary>
+            驼峰字符串转换下划线格式  如：userName  -> user_name
+            </summary>
+            <param name="camelCase"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.With.ReTry(Microsoft.Extensions.Logging.ILogger,System.Func{System.Threading.Tasks.Task},System.String,System.Int32)">
+            <summary>
+            失败重试
+            </summary>
+            <param name="logger"></param>
+            <param name="action"></param>
+            <param name="operationName"></param>
+            <param name="reTryCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Utils.With.ReTry``1(Microsoft.Extensions.Logging.ILogger,System.Func{System.Threading.Tasks.Task{``0}},System.String,System.Int32)">
+            <summary>
+            失败重试
+            </summary>
+            <param name="logger"></param>
+            <param name="action"></param>
+            <param name="operationName"></param>
+            <param name="reTryCount"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
