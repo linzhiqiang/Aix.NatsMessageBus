@@ -62,17 +62,18 @@ namespace Aix.NatsMessageBus
 
             var data = _options.Serializer.Serialize(message);
             var responseMsg = await _connection.RequestAsync(topic, data, GetTimeoutMillisecond(timeoutMillisecond));
-            //return _options.Serializer.Deserialize<TResult>(responseMsg.Data);
-            var replyResult = _options.Serializer.Deserialize<ReplyResult>(responseMsg.Data);
-            if (replyResult?.Code == 0)
-            {
-                var obj = _options.Serializer.Deserialize<TResult>(replyResult.Data);
-                return obj;
-            }
-            else
-            {
-                throw new Exception($"{replyResult?.Message ?? "nats reply error"}");
-            }
+            return _options.Serializer.Deserialize<TResult>(responseMsg.Data);
+
+            //var replyResult = _options.Serializer.Deserialize<ReplyResult>(responseMsg.Data);
+            //if (replyResult?.Code == 0)
+            //{
+            //    var obj = _options.Serializer.Deserialize<TResult>(replyResult.Data);
+            //    return obj;
+            //}
+            //else
+            //{
+            //    throw new Exception($"{replyResult?.Message ?? "nats reply error"}");
+            //}
         }
 
 
@@ -132,26 +133,22 @@ namespace Aix.NatsMessageBus
         {
             string myreply = message.Reply;// message.Header[Constants.MyReply];
             bool isReply = !string.IsNullOrEmpty(myreply);
-            ReplyResult replyResult = null;
             try
             {
                 var obj = _options.Serializer.Deserialize<T>(message.Data);
                 var subscribeContext = new SubscribeContext { Topic = message.Subject, Queue = queue };
                 var replyObj = await handler(obj, subscribeContext);
-                if (isReply) replyResult = new ReplyResult { Data = _options.Serializer.Serialize(replyObj) };
+                if (isReply)
+                {
+                    // _connection.Publish(myreply, _options.Serializer.Serialize(replyObj));
+                    message.Respond(_options.Serializer.Serialize(replyObj));
+                }
+
             }
             catch (Exception ex)
             {
-                if (isReply) replyResult = new ReplyResult { Code = -1, Message = ex.Message };
                 _logger.LogError(ex, $"nats subscribe {message.Subject} error");
             }
-
-            if (isReply)
-            {
-                // _connection.Publish(myreply, _options.Serializer.Serialize(replyResult));
-                message.Respond(_options.Serializer.Serialize(replyResult));
-            }
-
         }
 
         private void Ack(Msg message, bool autoAck)

@@ -89,16 +89,8 @@ namespace Aix.NatsMessageBus
             {
                 try
                 {
-                    var replyResult = _options.Serializer.Deserialize<ReplyResult>(args.Message.Data);
-                    if (replyResult?.Code == 0)
-                    {
-                        var obj = _options.Serializer.Deserialize<TResult>(replyResult.Data);
-                        replyManage.SetResult(requestId, obj);
-                    }
-                    else
-                    {
-                        replyManage.SetException(requestId, new Exception($"{replyResult?.Message ?? "nats reply error"}"));
-                    }
+                    var replyResult = _options.Serializer.Deserialize<TResult>(args.Message.Data);
+                    replyManage.SetResult(requestId, replyResult);
                 }
                 catch (Exception ex)
                 {
@@ -217,25 +209,20 @@ namespace Aix.NatsMessageBus
         {
             string myreply = message.Header[Constants.MyReply];
             bool isReply = !string.IsNullOrEmpty(myreply);
-            ReplyResult replyResult = null;
             try
             {
                 var obj = _options.Serializer.Deserialize<T>(message.Data);
                 var subscribeContext = new SubscribeContext { Topic = message.Subject, Queue = queue };
                 var replyObj = await handler(obj, subscribeContext);
-                if (isReply) replyResult = new ReplyResult { Data = _options.Serializer.Serialize(replyObj) };
+                if (isReply)
+                {
+                    _connection.Publish(myreply, _options.Serializer.Serialize(replyObj));
+                }
             }
             catch (Exception ex)
             {
-                if (isReply) replyResult = new ReplyResult { Code = -1, Message = ex.Message };
                 _logger.LogError(ex, $"nats subscribe {message.Subject} error");
             }
-
-            if (isReply)
-            {
-                _connection.Publish(myreply, _options.Serializer.Serialize(replyResult));
-            }
-
         }
 
         private void Ack(Msg message, bool autoAck)
