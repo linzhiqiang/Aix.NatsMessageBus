@@ -5,8 +5,9 @@
     <Description>NATs client unified interface encapsulation,Implement publish subscribe mode, queue mode and request response mode. You can also use jetstream.</Description>
     <PackageProjectUrl>https://github.com/linzhiqiang/Aix.NatsMessageBus</PackageProjectUrl>
     <RepositoryUrl>https://github.com/linzhiqiang/Aix.NatsMessageBus</RepositoryUrl>
-    <PackageReleaseNotes>1.0</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <Copyright></Copyright>
+    <Version>1.0.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

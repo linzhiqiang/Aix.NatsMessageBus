@@ -34,7 +34,7 @@ namespace Aix.NatsMessageBusSubscribeSample.Hosted
             {
                 try
                 {
-                    await Task.Run(() => NatsDemo(_natsMessageBus));
+                    //await Task.Run(() => NatsDemo(_natsMessageBus));
                     await Task.Run(() => NatsJSDemo(_natsJSMessageBus));
                 }
                 catch (Exception ex)
@@ -53,23 +53,47 @@ namespace Aix.NatsMessageBusSubscribeSample.Hosted
             //订阅模式 Durable 不同，Queue必须有，相同不相同没关系
             await messageBus.SubscribeAsync<OrderDTO>(async (order, context) =>
             {
-                var count = Interlocked.Increment(ref Count);
-                _logger.LogInformation("order.new----" + order.OrderId.ToString() + "----------" + count);
-               // await Task.Delay(TimeSpan.FromMilliseconds(10));
-                // throw new Exception("333");
-                await Task.CompletedTask;
+                var result = new ReplyResponse();
+                try
+                {
+                    var count = Interlocked.Increment(ref Count);
+                    _logger.LogInformation("order.new----" + order.OrderId.ToString() + "----------" + count);
+                    // await Task.Delay(TimeSpan.FromMilliseconds(10));
+                    // throw new Exception("333");
+                    await Task.CompletedTask;
 
-                return new ReplyResponse { Message = "Success" + order.OrderId.ToString() };
+                    result.Message = "Success" + order.OrderId.ToString();
+                }
+                catch (Exception ex)
+                {
+                    result.Code = -1;
+                    result.Message = ex.Message;
+                }
+
+                return result;
+
             }, new AixSubscribeOptions { ConsumerThreadCount = 8, Topic = "order.>", Queue = "order_new_consumer_queue", Durable = "order_new_consumer", DeliverPolicy = NATS.Client.JetStream.DeliverPolicy.New });
 
             await messageBus.SubscribeAsync<OrderPayDTO>(async (order, context) =>
             {
-                var count = Interlocked.Increment(ref Count);
-                _logger.LogInformation("order.pay----" + order.OrderId.ToString() + "----------" + count);
-                // await Task.Delay(TimeSpan.FromMilliseconds(10));
-                await Task.CompletedTask;
+                var result = new ReplyResponse();
+                try
+                {
+                    var count = Interlocked.Increment(ref Count);
+                    _logger.LogInformation("order.pay----" + order.OrderId.ToString() + "----------" + count);
+                    // await Task.Delay(TimeSpan.FromMilliseconds(10));
+                    await Task.CompletedTask;
 
-                return new ReplyResponse { Message = "Success" + order.OrderId.ToString() };
+                    result.Message = "Success" + order.OrderId.ToString();
+                }
+                catch (Exception ex)
+                {
+                    result.Code = -1;
+                    result.Message = ex.Message;
+                }
+
+                return result;
+
             }, new AixSubscribeOptions { ConsumerThreadCount = 8, Queue = "order_pay_consumer_queue", Durable = "order_pay_consumer", DeliverPolicy = NATS.Client.JetStream.DeliverPolicy.New });
 
 
@@ -109,23 +133,43 @@ namespace Aix.NatsMessageBusSubscribeSample.Hosted
             //订阅模式 Durable 不同，Queue必须有，相同不相同没关系
             await messageBus.SubscribeAsync<OrderDTO>(async (order, context) =>
             {
-                var count = Interlocked.Increment(ref Count);
-                _logger.LogInformation("js----------order.new----" + order.OrderId.ToString() + "----------" + count);
-                //  await Task.Delay(TimeSpan.FromMilliseconds(100));
-                // throw new Exception("333");
-                await Task.CompletedTask;
+                var result = new ReplyResponse();
+                try
+                {
+                    var count = Interlocked.Increment(ref Count);
+                    _logger.LogInformation("js----------order.new----" + order.OrderId.ToString() + "----------" + count);
+                    //  await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    // throw new Exception("333");
+                    await Task.CompletedTask;
 
-                return new ReplyResponse { Message = "Success" + order.OrderId.ToString() };
+                    result.Message = "Success" + order.OrderId.ToString();
+                }
+                catch (Exception ex)
+                {
+                    result.Code = -1;
+                    result.Message = ex.Message;
+                }
+
+                return result;
             }, new AixSubscribeOptions { ConsumerThreadCount = 8, Topic = "order.>", Queue = "order_new_consumer_queue", Durable = "order_new_consumer", DeliverPolicy = NATS.Client.JetStream.DeliverPolicy.New });
 
             await messageBus.SubscribeAsync<OrderPayDTO>(async (order, context) =>
             {
-                var count = Interlocked.Increment(ref Count);
-                _logger.LogInformation("js------------order.pay----" + order.OrderId.ToString() + "----------" + count);
-                // await Task.Delay(TimeSpan.FromMilliseconds(100));
-                await Task.CompletedTask;
+                var result = new ReplyResponse();
+                try
+                {
+                    var count = Interlocked.Increment(ref Count);
+                    _logger.LogInformation("js------------order.pay----" + order.OrderId.ToString() + "----------" + count);
+                    // await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    await Task.CompletedTask;
 
-                return new ReplyResponse { Message = "Success" + order.OrderId.ToString() };
+                    result.Message = "Success" + order.OrderId.ToString();
+                }
+                catch (Exception ex)
+                {
+                    result.Code = -1;
+                    result.Message = ex.Message;
+                }
             }, new AixSubscribeOptions { ConsumerThreadCount = 8, Queue = "order_pay_consumer_queue", Durable = "order_pay_consumer", DeliverPolicy = NATS.Client.JetStream.DeliverPolicy.New });
 
 

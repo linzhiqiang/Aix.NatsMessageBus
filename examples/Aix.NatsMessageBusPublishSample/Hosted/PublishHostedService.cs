@@ -34,27 +34,25 @@ namespace Aix.NatsMessageBusPublishSample.Hosted
 
             for (int i = 0; i < 10; i++)
             {
-               NatsDemo(_natsMessageBus, 1 * 10000);
+                //NatsDemo(_natsMessageBus, 1 * 10000);
             }
             for (int i = 0; i < 10; i++)
             {
-                NatsJSDemo(_natsJSMessageBus,1*10000);
+                NatsJSDemo(_natsJSMessageBus, 1 * 10000);
             }
 
             await Task.CompletedTask;
         }
 
-        public async Task NatsDemo(INatsMessageBus messageBus,int count )
+        public async Task NatsDemo(INatsMessageBus messageBus, int count)
         {
-
-
             for (int i = 0; i < count; i++)
             {
                 _applicationLifetime.ApplicationStopping.ThrowIfCancellationRequested();
                 try
                 {
                     var orderId = Interlocked.Increment(ref Count);
-                    var order = new  OrderDTO { OrderId = orderId };
+                    var order = new OrderDTO { OrderId = orderId };
 
                     _logger.LogInformation($"request order:{order.OrderId}");
                     var replyResult = await messageBus.RequestAsync<OrderDTO, ReplyResponse>(order, 3000);
@@ -87,11 +85,14 @@ namespace Aix.NatsMessageBusPublishSample.Hosted
                     OrderId = orderId
                 };
 
-
                 try
                 {
                     _logger.LogInformation($"request data:{order.OrderId}");
                     await messageBus.PublishAsync<OrderDTO>(order);
+
+                    //_logger.LogInformation($"request data:{order.OrderId}");
+                    //var replyResult = await messageBus.RequestAsync<OrderDTO, ReplyResponse>(order, 3000);
+                    //_logger.LogInformation($"reply data:{replyResult.Message}");
 
                     await messageBus.PublishAsync<OrderPayDTO>(new OrderPayDTO { OrderId = orderId });
                 }
@@ -109,6 +110,6 @@ namespace Aix.NatsMessageBusPublishSample.Hosted
         }
     }
 
-   
+
 }
 

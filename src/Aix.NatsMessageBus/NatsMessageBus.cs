@@ -76,7 +76,6 @@ namespace Aix.NatsMessageBus
             //}
         }
 
-
         public async Task SubscribeAsync<T>(Func<T, SubscribeContext, Task> handler, AixSubscribeOptions subscribeOptions = null) where T : class
         {
             await SubscribeAsync<T>(async (obj, context) =>
@@ -143,7 +142,6 @@ namespace Aix.NatsMessageBus
                     // _connection.Publish(myreply, _options.Serializer.Serialize(replyObj));
                     message.Respond(_options.Serializer.Serialize(replyObj));
                 }
-
             }
             catch (Exception ex)
             {
@@ -158,7 +156,6 @@ namespace Aix.NatsMessageBus
                 if (message.IsJetStream && !autoAck)
                 {
                     message.Ack();
-
                 }
             }
             catch (Exception ex)

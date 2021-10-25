@@ -28,6 +28,7 @@ namespace Common.Models
 
     public class ReplyResponse
     {
+        public int Code { get; set; }
         public string Message { get; set; }
     }
 }
