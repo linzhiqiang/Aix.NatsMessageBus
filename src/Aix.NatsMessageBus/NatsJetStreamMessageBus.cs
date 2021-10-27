@@ -25,6 +25,7 @@ namespace Aix.NatsMessageBus
         private IJetStream _jetStream => _jetStreamFactory.Value;
 
         private static object SyncLock = new object();
+        private MyGuid _myGuid = new MyGuid();
 
         List<IAsyncSubscription> subscriptions = new List<IAsyncSubscription>();
 
@@ -82,8 +83,9 @@ namespace Aix.NatsMessageBus
             var replyManage = AsyncCallResponseManage.JetStreamReplyManage;
 
             var requestId = replyManage.CreateRequestId();
-            var replyId = Constants.MyReply + "_" + Guid.NewGuid().ToString().Replace("-", "");
-            msg.Header.Add(Constants.MyReply, replyId);
+            //var replyId = "r" + Guid.NewGuid().ToString().Replace("-", "");
+            var replyId = "r" + _myGuid.GetNext();
+            msg.Header.Add(Constants.ReplyHeader, replyId);
 
             EventHandler<MsgHandlerEventArgs> eventHandler = (sender, args) =>
             {
@@ -207,7 +209,7 @@ namespace Aix.NatsMessageBus
 
         private async Task HandleMessage<T>(Func<T, SubscribeContext, Task<object>> handler, string queue, Msg message)
         {
-            string myreply = message.Header[Constants.MyReply];
+            string myreply = message.Header[Constants.ReplyHeader];
             bool isReply = !string.IsNullOrEmpty(myreply);
             try
             {

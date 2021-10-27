@@ -6,6 +6,6 @@ namespace Aix.NatsMessageBus
 {
     public class Constants
     {
-        public const string MyReply = "myply";
+        public const string ReplyHeader = "aixreply";
     }
 }

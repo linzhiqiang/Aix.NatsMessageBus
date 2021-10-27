@@ -80,6 +80,32 @@
             <param name="subscribeOptions"></param>
             <returns></returns>
         </member>
+        <member name="M:Aix.NatsMessageBus.Internals.MyGuid.#ctor(System.Security.Cryptography.RandomNumberGenerator,System.Nullable{System.UInt64},System.Nullable{System.UInt32})">
+            <summary>
+            Initializes a new instance of <see cref="T:Aix.NatsMessageBus.Internals.MyGuid"/>.
+            </summary>
+            <remarks>
+            This constructor is intended to be used from unit tests and
+            benchmarks only. For production use use <see cref="M:Aix.NatsMessageBus.Internals.MyGuid.#ctor"/> instead.
+            </remarks>
+            <param name="rng">A cryptographically strong random number generator.</param>
+            <param name="sequential">The initial sequential.</param>
+            <param name="increment">The initial increment.</param>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Internals.MyGuid.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Aix.NatsMessageBus.Internals.MyGuid"/>.
+            </summary>
+        </member>
+        <member name="M:Aix.NatsMessageBus.Internals.MyGuid.GetNext">
+            <summary>
+            Returns a random Nuid string.
+            </summary>
+            <remarks>
+            A Nuid is a 132 bit pseudo-random integer encoded as a base64 string
+            </remarks>
+            <returns>The Nuid</returns>
+        </member>
         <member name="T:Aix.NatsMessageBus.Model.AixSubscribeOptions">
             <summary>
             单个订阅的配置，针对当前订阅有效
