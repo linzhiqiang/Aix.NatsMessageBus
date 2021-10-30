@@ -334,3 +334,4 @@ ASALocalRun/
 /Samples/Sample/obj
 /Aix.MessageBus/obj
 /Aix.MessageBus.Kafka/obj
+/nats server/data
