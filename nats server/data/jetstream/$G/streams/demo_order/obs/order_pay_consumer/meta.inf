@@ -1,1 +1,0 @@
-{"Created":"2021-10-30T13:28:18.5225524Z","Name":"","durable_name":"order_pay_consumer","deliver_subject":"_INBOX.WBaxU4k1mcCpe4BWvskQqB","deliver_group":"order_pay_consumer_queue","deliver_policy":"new","ack_policy":"explicit","ack_wait":30000000000,"max_deliver":-1,"filter_subject":"demo_order.pay","replay_policy":"instant","max_ack_pending":20000}
