@@ -34,7 +34,7 @@ namespace Aix.NatsMessageBusSubscribeSample.Hosted
             {
                 try
                 {
-                    //await Task.Run(() => NatsDemo(_natsMessageBus));
+                    await Task.Run(() => NatsDemo(_natsMessageBus));
                     await Task.Run(() => NatsJSDemo(_natsJSMessageBus));
                 }
                 catch (Exception ex)

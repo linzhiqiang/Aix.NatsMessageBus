@@ -1,0 +1,1 @@
+{"Created":"2021-10-30T13:28:18.5054984Z","Name":"","durable_name":"order_new_consumer","deliver_subject":"_INBOX.WBaxU4k1mcCpXzBWvskQqB","deliver_group":"order_new_consumer_queue","deliver_policy":"new","ack_policy":"explicit","ack_wait":30000000000,"max_deliver":-1,"filter_subject":"demo_order.\u003e","replay_policy":"instant","max_ack_pending":20000}
