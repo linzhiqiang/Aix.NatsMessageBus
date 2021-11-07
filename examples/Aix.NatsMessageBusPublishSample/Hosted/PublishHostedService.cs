@@ -34,11 +34,11 @@ namespace Aix.NatsMessageBusPublishSample.Hosted
 
             for (int i = 0; i < 10; i++)
             {
-                //NatsDemo(_natsMessageBus, 1 * 10000);
+                NatsDemo(_natsMessageBus, 1 * 1000);
             }
             for (int i = 0; i < 10; i++)
             {
-                NatsJSDemo(_natsJSMessageBus, 1 * 10000);
+                NatsJSDemo(_natsJSMessageBus, 1 * 1000);
             }
 
             await Task.CompletedTask;
