@@ -58,7 +58,7 @@ namespace Aix.NatsMessageBus
             var topic = GetTopic(messageType, publishOptions);
 
             var data = _options.Serializer.Serialize(message);
-            Msg msg = new Msg(topic, null, data);
+            Msg msg = new Msg(topic, data);
 
             var ack = await _jetStream.PublishAsync(msg);
         }

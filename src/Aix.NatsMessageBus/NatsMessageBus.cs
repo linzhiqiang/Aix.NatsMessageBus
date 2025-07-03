@@ -46,7 +46,7 @@ namespace Aix.NatsMessageBus
             var topic = GetTopic(messageType, publishOptions);
 
             var data = _options.Serializer.Serialize(message);
-            _connection.Publish(topic, null, data);
+            _connection.Publish(topic, data);
             await Task.CompletedTask;
         }
 
