@@ -58,7 +58,7 @@ namespace SubscribeSampleConsoleApp
                  */
 
                 TopicPrefix = "demo_",
-                Urls = new[] { "nats://localhost:4222" },
+                Urls = new[] { "nats://localhost:4422" },
                 DefaultConsumerThreadCount = 1,
                 Authorization = new NatsAuthorization
                 {
@@ -99,8 +99,8 @@ namespace SubscribeSampleConsoleApp
                 }
 
                 return result;
-
-            }, new AixSubscribeOptions { ConsumerThreadCount = 8, Topic = "order.>", Queue = "order_new_consumer_queue", Durable = "order_new_consumer", DeliverPolicy = NATS.Client.JetStream.DeliverPolicy.New });
+                //如果传Queue，就是队列模式(只有一个订阅者处理)
+            }, new AixSubscribeOptions { ConsumerThreadCount = 8, Topic = "order.>", /*Queue = "order_new_consumer_queue",*/ Durable = "order_new_consumer", DeliverPolicy = NATS.Client.JetStream.DeliverPolicy.New });
 
             return;
             await messageBus.SubscribeAsync<OrderPayDTO>(async (order, context) =>

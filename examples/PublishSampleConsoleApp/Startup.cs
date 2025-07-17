@@ -24,7 +24,7 @@ namespace PublishSampleConsoleApp
             try
             {
                 await Initialize();
-                await NatsDemo(_messageBus, 1*1000);
+                await NatsDemo(_messageBus, 10);
             }
             catch (Exception ex)
             { 
@@ -59,7 +59,7 @@ namespace PublishSampleConsoleApp
                  */
 
                 TopicPrefix = "demo_",
-                Urls = new[] { "nats://localhost:4222" },
+                Urls = new[] { "nats://localhost:4422" },
                 DefaultConsumerThreadCount = 1,
                 Authorization = new NatsAuthorization
                 {
@@ -88,14 +88,14 @@ namespace PublishSampleConsoleApp
                     var order = new OrderDTO { OrderId = orderId };
 
                     _logger.LogInformation($"request order:{order.OrderId}");
-                    var replyResult = await messageBus.RequestAsync<OrderDTO, ReplyResponse>(order, 3000);
-                    _logger.LogInformation($"reply data:{replyResult.Message}");
-                    //await messageBus.PublishAsync(order);
+                    //var replyResult = await messageBus.RequestAsync<OrderDTO, ReplyResponse>(order, 3000);
+                    //_logger.LogInformation($"reply data:{replyResult.Message}");
+                    await messageBus.PublishAsync(order);
 
-                    _logger.LogInformation($"request payorder:{order.OrderId}");
-                    var replyResult2 = await messageBus.RequestAsync<OrderPayDTO, ReplyResponse>(new OrderPayDTO { OrderId = orderId }, 3000);
-                    _logger.LogInformation($"reply data:{replyResult2.Message}");
-                    //await messageBus.PublishAsync(new OrderPayDTO { OrderId = orderId });
+                    //_logger.LogInformation($"request payorder:{order.OrderId}");
+                    //var replyResult2 = await messageBus.RequestAsync<OrderPayDTO, ReplyResponse>(new OrderPayDTO { OrderId = orderId }, 3000);
+                    //_logger.LogInformation($"reply data:{replyResult2.Message}");
+                    ////await messageBus.PublishAsync(new OrderPayDTO { OrderId = orderId });
 
 
                 }
