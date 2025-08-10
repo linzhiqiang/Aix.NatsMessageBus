@@ -123,6 +123,9 @@ namespace Aix.NatsMessageBus
 
         public async Task<TResult> RequestAsync<TResult>(Type messageType, object message, int timeoutMillisecond, AixPublishOptions publishOptions)
         {
+
+            //NATS.Client.NATSTimeoutException 
+
             AssertUtils.IsNotNull(message, "message is null");
             var topic = GetTopic(messageType, publishOptions);
 
@@ -196,31 +199,23 @@ namespace Aix.NatsMessageBus
             threadCount = threadCount > 0 ? threadCount : _options.DefaultConsumerThreadCount;
             AssertUtils.IsTrue(threadCount > 0, "nats subscribe threadCount is zero");
             var autoAck = true;
-            SemaphoreSlim semaphoregate = new SemaphoreSlim(threadCount - 1, threadCount);//控制异步 和多线程 
+
 
             #region eventHandler
 
             //byte[], Task<byte[]>
-            Func<byte[], Task<byte[]>> eventHandler = async(data) =>
+            Func<byte[], Task<byte[]>> eventHandler = async (data) =>
             {
-                try
-                {
-                    var obj = _options.Serializer.Deserialize<T>(data);
-                    var subscribeContext = new SubscribeContext { Topic = topic, Queue = queue };
-                    var res = await handler(obj, subscribeContext);
-                    semaphoregate.Release();
-                    return _options.Serializer.Serialize(res);
-                }
-                finally
-                {
-                    semaphoregate.Wait();
-                }
+                var obj = _options.Serializer.Deserialize<T>(data);
+                var subscribeContext = new SubscribeContext { Topic = topic, Queue = queue };
+                var res = await handler(obj, subscribeContext);
+                return _options.Serializer.Serialize(res);
             };
 
             #endregion
 
             return await this.SubscribeAsync(topic, queue, eventHandler);
-            
+
         }
 
         private async Task HandleMessage<T>(Func<T, SubscribeContext, Task<object>> handler, string queue, Msg message)

@@ -94,6 +94,7 @@ namespace SubscribeSampleConsoleApp
                     var result = new ReplyResponse();
                     try
                     {
+                        await Task.Delay(100);
                         var count = Interlocked.Increment(ref Count);
                         _logger.LogInformation("order.new----" + order.OrderId.ToString() + "----------" + count);
                         // await Task.Delay(TimeSpan.FromMilliseconds(10));

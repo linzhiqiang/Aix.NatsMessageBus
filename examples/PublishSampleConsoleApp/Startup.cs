@@ -92,11 +92,12 @@ namespace PublishSampleConsoleApp
                 {
                     var orderId = Interlocked.Increment(ref Count);
                     var order = new OrderDTO { OrderId = orderId };
-
                     _logger.LogInformation($"request order:{order.OrderId}");
-                    //var replyResult = await messageBus.RequestAsync<OrderDTO, ReplyResponse>(order, 3000);
-                    //_logger.LogInformation($"reply data:{replyResult.Message}");
-                    await messageBus.PublishAsync(order);
+
+                    var replyResult = await messageBus.RequestAsync<OrderDTO, ReplyResponse>(order, 1);
+                    _logger.LogInformation($"reply data:{replyResult.Message}");
+
+                    //await messageBus.PublishAsync(order);
 
                     //_logger.LogInformation($"request payorder:{order.OrderId}");
                     //var replyResult2 = await messageBus.RequestAsync<OrderPayDTO, ReplyResponse>(new OrderPayDTO { OrderId = orderId }, 3000);
