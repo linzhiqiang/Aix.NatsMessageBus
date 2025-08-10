@@ -11,11 +11,12 @@ namespace SubscribeSampleConsoleApp
         static void Main(string[] args)
         {
             Startup startup = new Startup();
-            startup.Start();
+            _ = startup.Start();
 
-           
 
             Console.Read();
+
+            startup.Stop();
 
         }
     }

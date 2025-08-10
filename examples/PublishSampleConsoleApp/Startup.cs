@@ -32,6 +32,12 @@ namespace PublishSampleConsoleApp
             }
         }
 
+        public void Stop()
+        {
+            IoCContainer.Instance.Dispose();
+            _messageBus?.Dispose();
+        }
+
 
         public async Task Initialize()
         {
