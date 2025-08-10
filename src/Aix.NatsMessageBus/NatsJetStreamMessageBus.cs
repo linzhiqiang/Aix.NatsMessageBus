@@ -47,6 +47,8 @@ namespace Aix.NatsMessageBus
             }
         }
 
+        
+
         public async Task PublishAsync(Type messageType, object message)
         {
             await PublishAsync(messageType, message, null);
@@ -120,16 +122,16 @@ namespace Aix.NatsMessageBus
             }
         }
 
-        public async Task SubscribeAsync<T>(Func<T, SubscribeContext, Task> handler, AixSubscribeOptions subscribeOptions = null) where T : class
+        public async Task<IMySubscription> SubscribeAsync<T>(Func<T, SubscribeContext, Task> handler, AixSubscribeOptions subscribeOptions = null) where T : class
         {
-            await SubscribeAsync<T>(async (obj, context) =>
+            return await SubscribeAsync<T>(async (obj, context) =>
             {
                 await handler(obj, context);
                 return null;
             }, subscribeOptions);
         }
 
-        public async Task SubscribeAsync<T>(Func<T, SubscribeContext, Task<object>> handler, AixSubscribeOptions subscribeOptions = null) where T : class
+        public async Task<IMySubscription> SubscribeAsync<T>(Func<T, SubscribeContext, Task<object>> handler, AixSubscribeOptions subscribeOptions = null) where T : class
         {
             string topic = GetTopic(typeof(T), subscribeOptions);
             var queue = subscribeOptions?.Queue;
@@ -190,14 +192,15 @@ namespace Aix.NatsMessageBus
 
                 subscriptions.Add(subscription);
                 _logger.LogInformation($"natsjs subscribe Topic:{topic},Queue:{queue},stream:{stream},durable:{durable},ConsumerThreadCount:{threadCount}");
+
+                await Task.CompletedTask;
+                return new NatsSubscription(subscription);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"nats subscribe error: Topic:{topic},Queue:{queue}");
                 throw ex;
             }
-
-            await Task.CompletedTask;
         }
 
         #region private

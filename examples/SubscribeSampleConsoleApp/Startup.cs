@@ -78,30 +78,34 @@ namespace SubscribeSampleConsoleApp
 
         private async Task NatsDemo(INatsMessageBus messageBus)
         {
-            //订阅模式 Durable 不同，Queue必须有，相同不相同没关系
-            await messageBus.SubscribeAsync<OrderDTO>(async (order, context) =>
+            for (int i = 0; i < 2; i++)
             {
-                var result = new ReplyResponse();
-                try
+
+
+                //订阅模式 Durable 不同，Queue必须有，相同不相同没关系
+                await messageBus.SubscribeAsync<OrderDTO>(async (order, context) =>
                 {
-                    var count = Interlocked.Increment(ref Count);
-                    _logger.LogInformation("order.new----" + order.OrderId.ToString() + "----------" + count);
-                    // await Task.Delay(TimeSpan.FromMilliseconds(10));
-                    // throw new Exception("333");
-                    await Task.CompletedTask;
+                    var result = new ReplyResponse();
+                    try
+                    {
+                        var count = Interlocked.Increment(ref Count);
+                        _logger.LogInformation("order.new----" + order.OrderId.ToString() + "----------" + count);
+                        // await Task.Delay(TimeSpan.FromMilliseconds(10));
+                        // throw new Exception("333");
+                        await Task.CompletedTask;
 
-                    result.Message = "Success" + order.OrderId.ToString();
-                }
-                catch (Exception ex)
-                {
-                    result.Code = -1;
-                    result.Message = ex.Message;
-                }
+                        result.Message = "Success" + order.OrderId.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        result.Code = -1;
+                        result.Message = ex.Message;
+                    }
 
-                return result;
-                //如果传Queue，就是队列模式(只有一个订阅者处理)
-            }, new AixSubscribeOptions { ConsumerThreadCount = 8, Topic = "order.>", /*Queue = "order_new_consumer_queue",*/ Durable = "order_new_consumer", DeliverPolicy = NATS.Client.JetStream.DeliverPolicy.New });
-
+                    return result;
+                    //如果传Queue，就是队列模式(只有一个订阅者处理)
+                }, new AixSubscribeOptions { ConsumerThreadCount = 8, Topic = "order.>", /*Queue = "order_new_consumer_queue",*/ Durable = "order_new_consumer", DeliverPolicy = NATS.Client.JetStream.DeliverPolicy.New });
+            }
             return;
             await messageBus.SubscribeAsync<OrderPayDTO>(async (order, context) =>
             {

@@ -68,7 +68,7 @@ namespace Aix.NatsMessageBus
         /// <param name="handler"></param>
         /// <param name="subscribeOptions"></param>
         /// <returns></returns>
-        Task SubscribeAsync<T>(Func<T, SubscribeContext, Task> handler, AixSubscribeOptions subscribeOptions = null) where T : class;
+        Task<IMySubscription> SubscribeAsync<T>(Func<T, SubscribeContext, Task> handler, AixSubscribeOptions subscribeOptions = null) where T : class;
 
         /// <summary>
         /// subscribe message and with reply
@@ -77,6 +77,6 @@ namespace Aix.NatsMessageBus
         /// <param name="handler"></param>
         /// <param name="subscribeOptions"></param>
         /// <returns></returns>
-        Task SubscribeAsync<T>(Func<T, SubscribeContext, Task<object>> handler, AixSubscribeOptions subscribeOptions = null) where T : class;
+        Task<IMySubscription> SubscribeAsync<T>(Func<T, SubscribeContext, Task<object>> handler, AixSubscribeOptions subscribeOptions = null) where T : class;
     }
 }
