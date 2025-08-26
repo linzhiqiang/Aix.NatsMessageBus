@@ -24,7 +24,7 @@ namespace PublishSampleConsoleApp
             try
             {
                 await Initialize();
-                await NatsDemo(_messageBus, 10);
+                await NatsDemo(_messageBus, 1);
             }
             catch (Exception ex)
             { 
@@ -94,7 +94,7 @@ namespace PublishSampleConsoleApp
                     var order = new OrderDTO { OrderId = orderId };
                     _logger.LogInformation($"request order:{order.OrderId}");
 
-                    var replyResult = await messageBus.RequestAsync<OrderDTO, ReplyResponse>(order, 1);
+                    var replyResult = await messageBus.RequestAsync<OrderDTO, ReplyResponse>(order, 10000);
                     _logger.LogInformation($"reply data:{replyResult.Message}");
 
                     //await messageBus.PublishAsync(order);

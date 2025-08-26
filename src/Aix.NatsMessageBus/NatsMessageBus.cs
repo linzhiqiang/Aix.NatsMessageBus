@@ -99,6 +99,46 @@ namespace Aix.NatsMessageBus
 
         #endregion
 
+        #region recommended
+
+        public async Task PublishAsync(string subject, object message)
+        {
+            var data = _options.Serializer.Serialize(message);
+            await this.PublishAsync(subject, data);
+        }
+
+        public async Task<TResult> RequestAsync<TResult>(string subject, object message, int timeoutMillisecond)
+        {
+            var data = _options.Serializer.Serialize(message);
+            var responseMsg = await this.RequestAsync(subject, data, GetTimeoutMillisecond(timeoutMillisecond));
+            return _options.Serializer.Deserialize<TResult>(responseMsg);
+        }
+
+        public async Task<IMySubscription> SubscribeAsync<T>(string subject, string queue, Func<T, Task<object>> handler) where T : class
+        {
+            #region eventHandler
+
+            //byte[], Task<byte[]>
+            Func<byte[], Task<byte[]>> eventHandler = async (data) =>
+            {
+                var obj = _options.Serializer.Deserialize<T>(data);
+                var res = await handler(obj);
+                return _options.Serializer.Serialize(res);
+            };
+
+            #endregion
+
+            return await this.SubscribeAsync(subject, queue, eventHandler);
+
+        }
+
+
+        #region 如果有需要，可以在外面再封装一层，不建议在这里面封装
+
+        #endregion
+
+        #endregion
+
         public async Task PublishAsync(Type messageType, object message)
         {
             await PublishAsync(messageType, message, null);
